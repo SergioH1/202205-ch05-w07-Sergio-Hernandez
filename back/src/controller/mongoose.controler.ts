@@ -29,6 +29,8 @@ export class MongooseController<T> {
     ) => {
         try {
             const newItem = await this.model.create(req.body);
+            if (!newItem) throw new Error('error');
+
             resp.setHeader('Content-type', 'application/json');
             resp.status(201);
             resp.end(JSON.stringify(newItem));
@@ -48,7 +50,7 @@ export class MongooseController<T> {
 
     deleteController = async (req: Request, resp: Response) => {
         const deleteItem = await this.model.findByIdAndDelete(req.params.id);
-        // resp.status(status);
+
         resp.end(JSON.stringify(deleteItem));
     };
 }
