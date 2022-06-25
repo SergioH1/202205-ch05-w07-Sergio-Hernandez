@@ -4,7 +4,6 @@ import { mongooseConnect } from '../db/mongoose.js';
 await mongooseConnect();
 
 const robotSchema = new mongoose.Schema({
-    id: String,
     name: String,
     img: String,
     speed: { type: Number, min: 0, max: 10 },
