@@ -1,13 +1,13 @@
 img {
-    height: 200px;
+  height: 200px;
 }
 label {
-    display: block;
+  display: block;
 }
 
 .off {
-    display: none;
+  display: none;
 }
 .on {
-    display: initial;
+  display: initial;
 }
