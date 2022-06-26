@@ -3,7 +3,7 @@ import { iRobot } from "../models/robot";
 export class RobotHttpStore {
   apiUrl: string;
   constructor() {
-    this.apiUrl = "http://localhost:3700/robots/";
+    this.apiUrl = "http://localhost:3700/robot/";
   }
 
   getRobot(id: iRobot["_id"]): Promise<iRobot> {
