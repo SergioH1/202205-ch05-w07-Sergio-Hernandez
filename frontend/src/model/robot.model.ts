@@ -1,5 +1,5 @@
 export class RobotModel implements IRobot {
-  id!: string;
+  _id!: string;
   constructor(
     public name: string,
     public img: string,
@@ -9,7 +9,7 @@ export class RobotModel implements IRobot {
   ) {}
 }
 export interface IRobot {
-  id: string;
+  _id: string;
   name: string;
   img: string;
   speed: number;

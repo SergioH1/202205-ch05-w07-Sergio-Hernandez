@@ -7,18 +7,32 @@ export class MongooseController<T> {
     getAllController = async (req: Request, resp: Response) => {
         req;
         resp.setHeader('Content-type', 'application/json');
-        resp.end(await this.model.find());
+        resp.end(JSON.stringify(await this.model.find()));
     };
 
-    getController = async (req: Request, resp: Response) => {
-        resp.setHeader('Content-type', 'application/json');
-        console.log(req.params.id);
-        const result = await this.model.findById(req.params.id);
-        if (result) {
-            resp.end(JSON.stringify(result));
-        } else {
-            resp.status(404);
-            resp.end(JSON.stringify({}));
+    getController = async (
+        req: Request,
+        resp: Response,
+        next: NextFunction
+    ) => {
+        try {
+            resp.setHeader('Content-type', 'application/json');
+            if (req.params.id.length !== 24) {
+                resp.status(404);
+                resp.end(JSON.stringify({}));
+                throw new Error('Id not found');
+            }
+            const result = await this.model.findById(req.params.id);
+            if (!result) {
+                resp.status(406);
+                resp.end(JSON.stringify({}));
+
+                throw new Error('Id not found');
+            } else {
+                resp.end(JSON.stringify(result));
+            }
+        } catch (err) {
+            next(err);
         }
     };
 
@@ -46,11 +60,34 @@ export class MongooseController<T> {
         );
         resp.setHeader('Content-type', 'application/json');
         resp.end(JSON.stringify(newItem));
+        resp.status(202);
     };
 
-    deleteController = async (req: Request, resp: Response) => {
-        const deleteItem = await this.model.findByIdAndDelete(req.params.id);
+    deleteController = async (
+        req: Request,
+        resp: Response,
+        next: NextFunction
+    ) => {
+        try {
+            if (req.params.id.length !== 24) {
+                resp.status(404);
+                resp.end(JSON.stringify({}));
+                throw new Error('Id invalid');
+            }
+            const deleteItem = await this.model.findByIdAndDelete(
+                req.params.id
+            );
+            if (!deleteItem) {
+                resp.status(406);
+                resp.end(JSON.stringify({}));
 
-        resp.end(JSON.stringify(deleteItem));
+                throw new Error('Id not found');
+            } else {
+                resp.end(JSON.stringify(deleteItem));
+                resp.status(200);
+            }
+        } catch (err) {
+            next(err);
+        }
     };
 }
