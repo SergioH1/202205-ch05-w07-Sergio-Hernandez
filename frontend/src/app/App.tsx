@@ -6,16 +6,16 @@ import { RobotHttpStore } from "../services/robot.http.store";
 import { iStore } from "../store/store";
 
 export function App() {
-  const dispatcher = useDispatch();
   const apiRobots = useMemo(() => new RobotHttpStore(), []);
+  const robots = useSelector((store: iStore) => store.robots);
+
+  const dispatcher = useDispatch();
+
   useEffect(() => {
     apiRobots.getAllRobots().then((robots) => {
-      dispatcher(loadRobotsAction);
-      console.log(robots);
+      dispatcher(loadRobotsAction(robots));
     });
-  }, [apiRobots, dispatcher]);
-
-  const robots = useSelector((store: iStore) => store.robots);
+  }, [dispatcher]);
 
   return (
     <>

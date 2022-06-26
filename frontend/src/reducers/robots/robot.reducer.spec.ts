@@ -7,7 +7,7 @@ const mockedArray: Array<iRobot> = [
   {
     _id: "1",
     name: "test1",
-    image: "",
+    img: "",
     speed: 0,
     endurance: 0,
     creationDate: "",
@@ -15,7 +15,7 @@ const mockedArray: Array<iRobot> = [
   {
     _id: "2",
     name: "test1",
-    image: "",
+    img: "",
     speed: 0,
     endurance: 0,
     creationDate: "",
